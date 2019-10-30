@@ -3,9 +3,7 @@ package com.raqun.oyster
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
-import com.raqun.oyster.card.CreditCard
-import com.raqun.oyster.card.cleanCardNumber
-import com.raqun.oyster.card.luhnCheck
+import com.raqun.oyster.card.*
 import com.raqun.oyster.formatter.DefaultFormatter
 
 class Oyster private constructor(
@@ -136,16 +134,16 @@ class Oyster private constructor(
         fun jcb() {
             availableCards.add(
                 CreditCard.JCB(
-                    "^(?:2131|1800|35\\\\d{3})\\\\d{11}\$",
-                    "^35\\\\d{3}+.*",
+                    REGEX_JCB,
+                    TYPE_REGEX_JCB,
                     16
                 )
             )
 
             availableCards.add(
                 CreditCard.JCB(
-                    "^(?:2131|1800|35\\\\d{3})\\\\d{11}\$",
-                    "^(?:2131|1800)+.*",
+                    REGEX_JCB,
+                    TYPE_REGEX_JCB15,
                     15
                 )
             )
