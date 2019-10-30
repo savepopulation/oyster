@@ -44,7 +44,8 @@ sealed class CreditCard constructor(
         15
         )
 
-    class DinClub : CreditCard(4,
+    class DinnersClub : CreditCard(
+        4,
         DinnersClubFormatter(),
         "^3(?:0[0-5]|[68][0-9])[0-9]{11}\$",
         "^3(?:0[0-5]|[68][0-9])+.*",

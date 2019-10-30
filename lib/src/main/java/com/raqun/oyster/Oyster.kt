@@ -27,7 +27,7 @@ class Oyster private constructor(
 
     data class Builder(
         private var availableCards: MutableSet<CreditCard> = LinkedHashSet(),
-        private var formatable: Boolean,
+        private var formatable: Boolean = true,
         private var validationPoint: Int,
         private var validationChangeListener: ((isValid: Boolean) -> Unit)? = null,
         private var typeChangeListener: ((creditCard: CreditCard) -> Unit)? = null
@@ -42,14 +42,6 @@ class Oyster private constructor(
             this.formatable = formatable
         }
 
-        fun onValidationChanged(validationChangeListener: ((isValid: Boolean) -> Unit)?) {
-            this.validationChangeListener = validationChangeListener
-        }
-
-        fun onTypeChanged(typeChangeListener: ((creditCard: CreditCard) -> Unit)?) {
-            this.typeChangeListener = typeChangeListener
-        }
-
         fun visa() {
             availableCards.add(CreditCard.Visa())
         }
@@ -62,14 +54,48 @@ class Oyster private constructor(
             availableCards.add(CreditCard.Amex())
         }
 
-        fun dinClub() {
-            availableCards.add(CreditCard.DinClub())
+        fun dinersClub() {
+            availableCards.add(CreditCard.DinnersClub())
         }
 
         fun discover() {
             availableCards.add(CreditCard.Discover())
         }
+
+        fun jcb() {
+            availableCards.add(
+                CreditCard.JCB(
+                    "^(?:2131|1800|35\\\\d{3})\\\\d{11}\$",
+                    "^35\\\\d{3}+.*",
+                    16
+                )
+            )
+
+            availableCards.add(
+                CreditCard.JCB(
+                    "^(?:2131|1800|35\\\\d{3})\\\\d{11}\$",
+                    "^(?:2131|1800)+.*",
+                    15
+                )
+            )
+
+            this.validationPoint = 5
+        }
+
+        fun onValidationChanged(validationChangeListener: ((isValid: Boolean) -> Unit)?) {
+            this.validationChangeListener = validationChangeListener
+        }
+
+        fun onTypeChanged(typeChangeListener: ((creditCard: CreditCard) -> Unit)?) {
+            this.typeChangeListener = typeChangeListener
+        }
+
+        fun build(): Oyster = Oyster(
+            this.availableCards.toList(),
+            this.formatable,
+            this.validationPoint,
+            this.validationChangeListener,
+            this.typeChangeListener
+        )
     }
-
-
 }
