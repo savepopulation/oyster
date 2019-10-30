@@ -29,6 +29,7 @@ const val TYPE_REGEX_JCB15 = "^(?:2131|1800)+.*"
 
 sealed class CreditCard constructor(
     val id: Int,
+    val name: String,
     val formatter: Formatter,
     val validationRegex: String,
     val typeRegex: String,
@@ -36,6 +37,7 @@ sealed class CreditCard constructor(
 ) {
     class UnknownCard : CreditCard(
         0,
+        "Unknown",
         DefaultFormatter(),
         REGEX_DEFAULT_CARD,
         "",
@@ -44,6 +46,7 @@ sealed class CreditCard constructor(
 
     class Visa : CreditCard(
         1,
+        "Visa",
         DefaultFormatter(),
         REGEX_VISA,
         TYPE_REGEX_VISA,
@@ -52,6 +55,7 @@ sealed class CreditCard constructor(
 
     class MasterCard : CreditCard(
         2,
+        "Master Card",
         DefaultFormatter(),
         REGEX_MASTER_CARD,
         TYPE_REGEX_MASTER_CARD,
@@ -60,6 +64,7 @@ sealed class CreditCard constructor(
 
     class Amex : CreditCard(
         3,
+        "American Express",
         AmexFormatter(),
         REGEX_AMEX,
         TYPE_REGEX_AMEX,
@@ -68,6 +73,7 @@ sealed class CreditCard constructor(
 
     class DinnersClub : CreditCard(
         4,
+        "Dinners Club",
         DinnersClubFormatter(),
         REGEX_DINNERS_CLUB,
         TYPE_REGEX_DINNERS_CLUB,
@@ -76,6 +82,7 @@ sealed class CreditCard constructor(
 
     class Discover : CreditCard(
         5,
+        "Discover",
         DefaultFormatter(),
         REGEX_DISCOVER,
         TYPE_REGEX_DISCOVER,
@@ -88,6 +95,7 @@ sealed class CreditCard constructor(
         len: Int
     ) : CreditCard(
         6,
+        "JCB",
         DefaultFormatter(),
         validationRegex,
         typeRegex,
