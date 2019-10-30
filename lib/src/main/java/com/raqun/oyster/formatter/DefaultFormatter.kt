@@ -6,7 +6,9 @@ import com.raqun.oyster.Constants
 
 class DefaultFormatter(private val separator: Char = Constants.DEFAULT_SEPERATOR) : Formatter {
 
-    override fun format(editable: Editable) {
+    override fun format(editable: Editable?) {
+        if (editable == null) return
+
         if (editable.isNotEmpty() && editable.length % 5 == 0) {
             val c = editable[editable.length - 1]
             if (separator == c) {

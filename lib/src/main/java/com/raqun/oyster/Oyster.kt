@@ -1,41 +1,112 @@
 package com.raqun.oyster
 
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import com.raqun.oyster.card.CreditCard
+import com.raqun.oyster.card.cleanCardNumber
+import com.raqun.oyster.card.luhnCheck
+import com.raqun.oyster.formatter.DefaultFormatter
 
 class Oyster private constructor(
     private val availableCards: List<CreditCard>,
     private val formatable: Boolean,
-    private val validationPoint: Int,
     private val validationChangeListener: ((isValid: Boolean) -> Unit)? = null,
-    private val typeChangeListener: ((creditCard: CreditCard) -> Unit)? = null
+    private val typeChangeListener: ((creditCard: CreditCard?) -> Unit)? = null
 ) : TextWatcher {
 
+    private val filterArray = arrayOfNulls<InputFilter>(1)
+    private var creditCard: CreditCard? = null
+    private var isPatternValid = false
+    private var isCardValid = false
 
-    override fun afterTextChanged(p0: Editable?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun afterTextChanged(editable: Editable?) {
+        if (editable == null) return
+        val s = editable.toString().cleanCardNumber()
+        if (s.length >= 0) {
+            if (isValidatorChanged(s)) {
+                filterArray[0] = InputFilter.LengthFilter(getMaxLenForFormatter())
+                editable.filters = filterArray
+                typeChangeListener?.invoke(creditCard)
+            }
+        }
+
+        creditCard?.let {
+            isPatternValid =
+                s.length >= it.len && s.matches(it.validationRegex.toRegex())
+
+            val tempValid = validateCreditCard(s, isPatternValid)
+            if (isCardValid != tempValid) {
+                isCardValid = tempValid
+                validationChangeListener?.invoke(isCardValid)
+            }
+
+            if (formatable) {
+                it.formatter.format(editable)
+            }
+        }
     }
 
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // no-op
     }
 
     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // no-op
+    }
+
+    private fun isValidatorChanged(s: String): Boolean {
+        var isChanged = false
+
+        if (creditCard == null) {
+            creditCard = availableCards[0]
+            isChanged = true
+        }
+
+        for (availableCard in availableCards) {
+            if (s.matches(availableCard.typeRegex.toRegex()) && this.creditCard?.id != availableCard.id) {
+                this.creditCard = availableCard
+                isChanged = true
+            }
+        }
+
+        return isChanged
+    }
+
+    private fun getMaxLenForFormatter(): Int {
+        if (!formatable) {
+            return if (creditCard is CreditCard.Visa) {
+                creditCard!!.len + 3
+            } else {
+                creditCard!!.len
+            }
+        } else {
+            val formatStrategy = creditCard?.formatter
+            return if (formatStrategy is DefaultFormatter) {
+                if (creditCard is CreditCard.Visa) {
+                    creditCard!!.len + 6
+                } else {
+                    creditCard!!.len + 3
+                }
+            } else {
+                creditCard!!.len + 2
+            }
+        }
+    }
+
+    fun validateCreditCard(carNumber: String, isPatternValid: Boolean): Boolean {
+        return isPatternValid && carNumber.luhnCheck()
     }
 
     data class Builder(
         private var availableCards: MutableSet<CreditCard> = LinkedHashSet(),
         private var formatable: Boolean = true,
-        private var validationPoint: Int,
         private var validationChangeListener: ((isValid: Boolean) -> Unit)? = null,
-        private var typeChangeListener: ((creditCard: CreditCard) -> Unit)? = null
+        private var typeChangeListener: ((creditCard: CreditCard?) -> Unit)? = null
     ) {
 
         init {
             availableCards.add(CreditCard.UnknownCard())
-            this.validationPoint = 4
         }
 
         fun formatable(formatable: Boolean) {
@@ -78,22 +149,19 @@ class Oyster private constructor(
                     15
                 )
             )
-
-            this.validationPoint = 5
         }
 
         fun onValidationChanged(validationChangeListener: ((isValid: Boolean) -> Unit)?) {
             this.validationChangeListener = validationChangeListener
         }
 
-        fun onTypeChanged(typeChangeListener: ((creditCard: CreditCard) -> Unit)?) {
+        fun onTypeChanged(typeChangeListener: ((creditCard: CreditCard?) -> Unit)?) {
             this.typeChangeListener = typeChangeListener
         }
 
         fun build(): Oyster = Oyster(
             this.availableCards.toList(),
             this.formatable,
-            this.validationPoint,
             this.validationChangeListener,
             this.typeChangeListener
         )

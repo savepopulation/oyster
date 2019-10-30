@@ -1,5 +1,9 @@
 package com.raqun.oyster.card
 
+import android.text.TextUtils
+import com.raqun.oyster.Constants
+
+
 /*
  * Checks Card number with Luhn Algorithm
  * and returns if it's valid.
@@ -19,4 +23,15 @@ fun String.luhnCheck(): Boolean {
         alternate = !alternate
     }
     return sum % 10 == 0
+}
+
+/*
+ * Cleans Card Number
+ */
+fun String.cleanCardNumber(separator: Char = Constants.DEFAULT_SEPERATOR): String {
+    return if (!TextUtils.isEmpty(this)) {
+        replace(
+            separator.toString().toRegex(), ""
+        ).trim { it <= ' ' }
+    } else this
 }
