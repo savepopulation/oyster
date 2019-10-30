@@ -1,10 +1,10 @@
 package com.raqun.oyster.card
 
 /*
- * Checks Card number with Luhm Algorithm
+ * Checks Card number with Luhn Algorithm
  * and returns if it's valid.
  */
-fun String.luhmCheck(): Boolean {
+fun String.luhnCheck(): Boolean {
     var sum = 0
     var alternate = false
     for (i in length - 1 downTo 0) {
