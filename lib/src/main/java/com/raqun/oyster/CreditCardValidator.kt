@@ -6,7 +6,7 @@ import android.text.TextWatcher
 import com.raqun.oyster.card.*
 import com.raqun.oyster.formatter.DefaultFormatter
 
-class Oyster private constructor(
+class CreditCardValidator private constructor(
     private val availableCards: List<CreditCard>,
     private val formatable: Boolean,
     private val validationChangeListener: ((isValid: Boolean) -> Unit)? = null,
@@ -107,31 +107,37 @@ class Oyster private constructor(
             availableCards.add(CreditCard.UnknownCard())
         }
 
-        fun formatable(formatable: Boolean) {
+        fun formatable(formatable: Boolean): Builder {
             this.formatable = formatable
+            return this
         }
 
-        fun visa() {
+        fun visa(): Builder {
             availableCards.add(CreditCard.Visa())
+            return this
         }
 
-        fun master() {
+        fun master(): Builder {
             availableCards.add(CreditCard.MasterCard())
+            return this
         }
 
-        fun amex() {
+        fun amex(): Builder {
             availableCards.add(CreditCard.Amex())
+            return this
         }
 
-        fun dinersClub() {
+        fun dinersClub(): Builder {
             availableCards.add(CreditCard.DinnersClub())
+            return this
         }
 
-        fun discover() {
+        fun discover(): Builder {
             availableCards.add(CreditCard.Discover())
+            return this
         }
 
-        fun jcb() {
+        fun jcb(): Builder {
             availableCards.add(
                 CreditCard.JCB(
                     REGEX_JCB,
@@ -147,17 +153,21 @@ class Oyster private constructor(
                     15
                 )
             )
+
+            return this
         }
 
-        fun onValidationChanged(validationChangeListener: ((isValid: Boolean) -> Unit)?) {
+        fun onValidationChanged(validationChangeListener: ((isValid: Boolean) -> Unit)?): Builder {
             this.validationChangeListener = validationChangeListener
+            return this
         }
 
-        fun onTypeChanged(typeChangeListener: ((creditCard: CreditCard?) -> Unit)?) {
+        fun onTypeChanged(typeChangeListener: ((creditCard: CreditCard?) -> Unit)?): Builder {
             this.typeChangeListener = typeChangeListener
+            return this
         }
 
-        fun build(): Oyster = Oyster(
+        fun build(): CreditCardValidator = CreditCardValidator(
             this.availableCards.toList(),
             this.formatable,
             this.validationChangeListener,
