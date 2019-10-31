@@ -16,7 +16,9 @@ class CreditCardValidator private constructor(
     private val filterArray = arrayOfNulls<InputFilter>(1)
     private var creditCard: CreditCard? = null
     private var isPatternValid = false
-    private var isCardValid = false
+
+    var isValid = false
+        private set
 
     override fun afterTextChanged(editable: Editable?) {
         if (editable == null) return
@@ -34,9 +36,9 @@ class CreditCardValidator private constructor(
                 s.length >= it.len && s.matches(it.validationRegex.toRegex())
 
             val tempValid = validateCreditCard(s, isPatternValid)
-            if (isCardValid != tempValid) {
-                isCardValid = tempValid
-                validationChangeListener?.invoke(isCardValid)
+            if (isValid != tempValid) {
+                isValid = tempValid
+                validationChangeListener?.invoke(isValid)
             }
 
             if (formatable) {
@@ -117,7 +119,7 @@ class CreditCardValidator private constructor(
             return this
         }
 
-        fun master(): Builder {
+        fun masterCard(): Builder {
             availableCards.add(CreditCard.MasterCard())
             return this
         }
