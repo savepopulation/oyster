@@ -176,4 +176,10 @@ class CreditCardValidator private constructor(
             this.typeChangeListener
         )
     }
+
+    companion object {
+        fun build(block: Builder.() -> Unit): CreditCardValidator {
+            return Builder().apply(block).build()
+        }
+    }
 }
