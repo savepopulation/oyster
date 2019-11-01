@@ -2,24 +2,15 @@
 A lightweight Credit Card number format, validation and type recognition library.
 
 ### How to use?
-```kotlin
+```
 val oyster = CreditCardValidator.Builder()
-            // Add the credit cards you want to support
             .visa()
             .masterCard()
-            // Listen card type and type changes
-            .onTypeChanged {
-                textViewCreditCardName.text = it?.name
-            }
-            // Listen validation changes
-            .onValidationChanged {
-                textViewIsValid.text = it.toString()
-            }
+            .onTypeChanged { textViewCreditCardName.text = it?.name }
+            .onValidationChanged { textViewIsValid.text = it.toString() }
             .build()
 
-// Finally add oyster to your EditText as TextChangedListener
 editTextCreditCard.addTextChangedListener(oyster)
-
 ```
 
 ### Supported Credit Card Types:
@@ -31,7 +22,7 @@ editTextCreditCard.addTextChangedListener(oyster)
     * JCB
 
 ### Dependency<br>
-```groovy
+```
 maven { url 'https://jitpack.io' }
 ```
 ```
