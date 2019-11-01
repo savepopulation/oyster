@@ -178,8 +178,8 @@ class CreditCardValidator private constructor(
     }
 
     companion object {
-        fun build(body: Builder.() -> Unit): CreditCardValidator {
-            return Builder().apply { body() }.build()
+        fun build(block: Builder.() -> Unit): CreditCardValidator {
+            return Builder().apply(block).build()
         }
     }
 }
