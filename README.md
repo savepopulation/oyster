@@ -17,7 +17,7 @@ editTextCreditCard.addTextChangedListener(oyster)
     * Visa
     * Master Card
     * American Express
-    * Dinners Club
+    * Diners Club
     * Discover
     * JCB
 
