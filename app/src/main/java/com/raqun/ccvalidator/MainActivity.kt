@@ -11,16 +11,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val oyster = CreditCardValidator.Builder()
-            .visa()
-            .masterCard()
-            .onTypeChanged {
+        val oyster = CreditCardValidator.build {
+            visa()
+            masterCard()
+            onTypeChanged {
                 textViewCreditCardName.text = it?.name
             }
-            .onValidationChanged {
+            onValidationChanged {
                 textViewIsValid.text = it.toString()
             }
-            .build()
+        }
 
         editTextCreditCard.addTextChangedListener(oyster)
     }

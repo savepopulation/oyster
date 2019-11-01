@@ -3,12 +3,16 @@ A lightweight Credit Card number format, validation and type recognition library
 
 ### How to use?
 ```kotlin
-val oyster = CreditCardValidator.Builder()
-            .visa()
-            .masterCard()
-            .onTypeChanged { textViewCreditCardName.text = it?.name }
-            .onValidationChanged { textViewIsValid.text = it.toString() }
-            .build()
+val oyster = CreditCardValidator.build {
+    visa()
+    masterCard()
+    onTypeChanged {
+        textViewCreditCardName.text = it?.name
+    }
+    onValidationChanged {
+        textViewIsValid.text = it.toString()
+    }
+}
 
 editTextCreditCard.addTextChangedListener(oyster)
 ```
