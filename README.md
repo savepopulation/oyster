@@ -2,7 +2,7 @@
 A lightweight Credit Card number format, validation and type recognition library.
 
 ### How to use?
-```
+```kotlin
 val oyster = CreditCardValidator.Builder()
             .visa()
             .masterCard()
@@ -22,7 +22,7 @@ editTextCreditCard.addTextChangedListener(oyster)
     * JCB
 
 ### Dependency<br>
-```
+```groovy
 maven { url 'https://jitpack.io' }
 ```
 ```
