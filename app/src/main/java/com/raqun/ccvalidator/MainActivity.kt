@@ -2,8 +2,10 @@ package com.raqun.ccvalidator
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.raqun.oyster.CreditCardValidator
-import kotlinx.android.synthetic.main.activity_main.*
+import com.raqun.oyster.oyster
+import kotlinx.android.synthetic.main.activity_main.editTextCreditCard
+import kotlinx.android.synthetic.main.activity_main.textViewCreditCardName
+import kotlinx.android.synthetic.main.activity_main.textViewIsValid
 
 class MainActivity : AppCompatActivity() {
 
@@ -11,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val oyster = CreditCardValidator.build {
+        val oyster = oyster {
             visa()
             masterCard()
             onTypeChanged {

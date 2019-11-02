@@ -71,7 +71,7 @@ sealed class CreditCard constructor(
         15
         )
 
-    class DinnersClub : CreditCard(
+    class DinersClub : CreditCard(
         4,
         "Dinners Club",
         DinnersClubFormatter(),
