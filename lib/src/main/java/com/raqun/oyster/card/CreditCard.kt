@@ -2,7 +2,7 @@ package com.raqun.oyster.card
 
 import com.raqun.oyster.formatter.AmexFormatter
 import com.raqun.oyster.formatter.DefaultFormatter
-import com.raqun.oyster.formatter.DinnersClubFormatter
+import com.raqun.oyster.formatter.DinersClubFormatter
 import com.raqun.oyster.formatter.Formatter
 
 /*
@@ -12,7 +12,7 @@ const val REGEX_DEFAULT_CARD = "^[0-9]{16}\$"
 const val REGEX_VISA = "^4[0-9]{12}(?:[0-9]{3})?\$"
 const val REGEX_MASTER_CARD = "^5[1-5][0-9]{14}\$"
 const val REGEX_AMEX = "^3[47][0-9]{13}\$"
-const val REGEX_DINNERS_CLUB = "^3(?:0[0-5]|[68][0-9])[0-9]{11}\$"
+const val REGEX_DINERS_CLUB = "^3(?:0[0-5]|[68][0-9])[0-9]{11}\$"
 const val REGEX_DISCOVER = "^6(?:011|5[0-9]{2})[0-9]{12}\$"
 const val REGEX_JCB = "^(?:2131|1800|35\\\\d{3})\\\\d{11}\$"
 
@@ -22,7 +22,7 @@ const val REGEX_JCB = "^(?:2131|1800|35\\\\d{3})\\\\d{11}\$"
 const val TYPE_REGEX_VISA = "^[4]+.*"
 const val TYPE_REGEX_MASTER_CARD = "^[5]+.*"
 const val TYPE_REGEX_AMEX = "^3[47]+.*"
-const val TYPE_REGEX_DINNERS_CLUB = "^3(?:0[0-5]|[68][0-9])+.*"
+const val TYPE_REGEX_DINERS_CLUB = "^3(?:0[0-5]|[68][0-9])+.*"
 const val TYPE_REGEX_DISCOVER = "^6(?:011|5[0-9]{2})+.*"
 const val TYPE_REGEX_JCB = "^35\\\\d{3}+.*"
 const val TYPE_REGEX_JCB15 = "^(?:2131|1800)+.*"
@@ -73,10 +73,10 @@ sealed class CreditCard constructor(
 
     class DinersClub : CreditCard(
         4,
-        "Dinners Club",
-        DinnersClubFormatter(),
-        REGEX_DINNERS_CLUB,
-        TYPE_REGEX_DINNERS_CLUB,
+        "Diners Club",
+        DinersClubFormatter(),
+        REGEX_DINERS_CLUB,
+        TYPE_REGEX_DINERS_CLUB,
         14
         )
 
