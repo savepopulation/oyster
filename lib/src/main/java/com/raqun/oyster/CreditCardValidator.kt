@@ -3,7 +3,12 @@ package com.raqun.oyster
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
-import com.raqun.oyster.card.*
+import com.raqun.oyster.card.CreditCard
+import com.raqun.oyster.card.REGEX_JCB
+import com.raqun.oyster.card.TYPE_REGEX_JCB
+import com.raqun.oyster.card.TYPE_REGEX_JCB15
+import com.raqun.oyster.card.cleanCardNumber
+import com.raqun.oyster.card.luhnCheck
 import com.raqun.oyster.formatter.DefaultFormatter
 
 class CreditCardValidator private constructor(
@@ -98,6 +103,7 @@ class CreditCardValidator private constructor(
         return isPatternValid && carNumber.luhnCheck()
     }
 
+    @OysterDslMarker
     data class Builder(
         private var availableCards: MutableSet<CreditCard> = LinkedHashSet(),
         private var formatable: Boolean = true,
@@ -109,64 +115,31 @@ class CreditCardValidator private constructor(
             availableCards.add(CreditCard.UnknownCard())
         }
 
-        fun formatable(formatable: Boolean): Builder {
-            this.formatable = formatable
-            return this
+        fun formatable(formatable: Boolean) = apply { this.formatable = formatable }
+
+        fun visa() = apply { availableCards.add(CreditCard.Visa()) }
+
+        fun masterCard() = apply { availableCards.add(CreditCard.MasterCard()) }
+
+        fun amex() = apply { availableCards.add(CreditCard.Amex()) }
+
+        fun dinersClub() = apply { availableCards.add(CreditCard.DinersClub()) }
+
+        fun discover() = apply { availableCards.add(CreditCard.Discover()) }
+
+        fun jcb() = apply {
+            val jcb = CreditCard.JCB(REGEX_JCB, TYPE_REGEX_JCB, 16)
+            val jcb15 = CreditCard.JCB(REGEX_JCB, TYPE_REGEX_JCB15, 15)
+
+            availableCards.addAll(listOf(jcb, jcb15))
         }
 
-        fun visa(): Builder {
-            availableCards.add(CreditCard.Visa())
-            return this
-        }
-
-        fun masterCard(): Builder {
-            availableCards.add(CreditCard.MasterCard())
-            return this
-        }
-
-        fun amex(): Builder {
-            availableCards.add(CreditCard.Amex())
-            return this
-        }
-
-        fun dinersClub(): Builder {
-            availableCards.add(CreditCard.DinnersClub())
-            return this
-        }
-
-        fun discover(): Builder {
-            availableCards.add(CreditCard.Discover())
-            return this
-        }
-
-        fun jcb(): Builder {
-            availableCards.add(
-                CreditCard.JCB(
-                    REGEX_JCB,
-                    TYPE_REGEX_JCB,
-                    16
-                )
-            )
-
-            availableCards.add(
-                CreditCard.JCB(
-                    REGEX_JCB,
-                    TYPE_REGEX_JCB15,
-                    15
-                )
-            )
-
-            return this
-        }
-
-        fun onValidationChanged(validationChangeListener: ((isValid: Boolean) -> Unit)?): Builder {
+        fun onValidationChanged(validationChangeListener: ((isValid: Boolean) -> Unit)?) = apply {
             this.validationChangeListener = validationChangeListener
-            return this
         }
 
-        fun onTypeChanged(typeChangeListener: ((creditCard: CreditCard?) -> Unit)?): Builder {
+        fun onTypeChanged(typeChangeListener: ((creditCard: CreditCard?) -> Unit)?) = apply {
             this.typeChangeListener = typeChangeListener
-            return this
         }
 
         fun build(): CreditCardValidator = CreditCardValidator(
@@ -175,11 +148,5 @@ class CreditCardValidator private constructor(
             this.validationChangeListener,
             this.typeChangeListener
         )
-    }
-
-    companion object {
-        fun build(block: Builder.() -> Unit): CreditCardValidator {
-            return Builder().apply(block).build()
-        }
     }
 }

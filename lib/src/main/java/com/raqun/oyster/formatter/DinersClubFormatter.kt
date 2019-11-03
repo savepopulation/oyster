@@ -5,7 +5,7 @@ import android.text.TextUtils
 import com.raqun.oyster.Constants
 
 
-class DinnersClubFormatter(private val separator: Char = Constants.DEFAULT_SEPERATOR) : Formatter {
+class DinersClubFormatter(private val separator: Char = Constants.DEFAULT_SEPERATOR) : Formatter {
     override fun format(editable: Editable?) {
         if (editable == null) return
 
