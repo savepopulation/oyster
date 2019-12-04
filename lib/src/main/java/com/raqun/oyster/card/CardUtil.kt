@@ -14,7 +14,7 @@ class CardUtil {
                 TYPE_REGEX_JCB15 to CardType.JCB15
             )
             for (regex in regexMap) {
-                if (cardNumber.matches(regex.key.toRegex())) {
+                if (cardNumber.cleanCardNumber().matches(regex.key.toRegex())) {
                     return regex.value
                 }
             }
