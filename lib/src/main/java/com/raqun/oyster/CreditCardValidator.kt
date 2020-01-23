@@ -19,8 +19,10 @@ class CreditCardValidator private constructor(
 ) : TextWatcher {
 
     private val filterArray = arrayOfNulls<InputFilter>(1)
-    private var creditCard: CreditCard? = null
     private var isPatternValid = false
+
+    var creditCard: CreditCard? = null
+        private set
 
     var isValid = false
         private set
