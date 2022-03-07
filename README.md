@@ -24,6 +24,7 @@ val oyster = oyster {
     * Diners Club
     * Discover
     * JCB
+    * Mada
 
 ### Dependency<br>
 ```groovy
@@ -31,7 +32,7 @@ maven { url 'https://jitpack.io' }
 ```
 ```
 dependencies {
-    implementation 'com.github.savepopulation:oyster:1.0.1'
+    implementation 'com.github.savepopulation:oyster:1.0.4'
 }
 ``` 
 
