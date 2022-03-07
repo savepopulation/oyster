@@ -125,6 +125,8 @@ class CreditCardValidator private constructor(
 
         fun amex() = apply { availableCards.add(CreditCard.Amex()) }
 
+        fun mada() = apply { availableCards.add(CreditCard.MADA()) }
+
         fun dinersClub() = apply { availableCards.add(CreditCard.DinersClub()) }
 
         fun discover() = apply { availableCards.add(CreditCard.Discover()) }
