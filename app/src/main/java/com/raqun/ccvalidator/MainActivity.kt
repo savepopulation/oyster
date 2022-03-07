@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         val oyster = oyster {
             visa()
             masterCard()
+            mada()
             onTypeChanged {
                 textViewCreditCardName.text = it?.name
             }
