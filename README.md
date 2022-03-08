@@ -37,7 +37,8 @@ dependencies {
 ``` 
 
 ### Apps using in production
-Please feel free to email me if you use oyster in production.
+- [La3eb](https://play.google.com/store/apps/details?id=com.mecl.la3eb)
+- [DCA Food](https://www.dcafood.com/)
 
 ### Where "Oyster" comes from?
 It comes from nowhere. :)
