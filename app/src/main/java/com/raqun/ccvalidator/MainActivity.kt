@@ -2,10 +2,9 @@ package com.raqun.ccvalidator
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.raqun.oyster.oyster
-import kotlinx.android.synthetic.main.activity_main.editTextCreditCard
-import kotlinx.android.synthetic.main.activity_main.textViewCreditCardName
-import kotlinx.android.synthetic.main.activity_main.textViewIsValid
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,8 +16,10 @@ class MainActivity : AppCompatActivity() {
             visa()
             masterCard()
             mada()
-            onTypeChanged {
-                textViewCreditCardName.text = it?.name
+            onTypeChanged { creditCard ->
+                textViewCreditCardName.text = creditCard?.name
+                val logoDrawable = creditCard?.logo?.let { ContextCompat.getDrawable(this@MainActivity, it) }
+                imageViewCardLogo.setImageDrawable(logoDrawable)
             }
             onValidationChanged {
                 textViewIsValid.text = it.toString()
