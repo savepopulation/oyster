@@ -1,5 +1,6 @@
 package com.raqun.oyster.card
 
+import com.raqun.oyster.R
 import com.raqun.oyster.formatter.AmexFormatter
 import com.raqun.oyster.formatter.DefaultFormatter
 import com.raqun.oyster.formatter.DinersClubFormatter
@@ -38,7 +39,8 @@ sealed class CreditCard constructor(
     val formatter: Formatter,
     val validationRegex: String,
     val typeRegex: String,
-    val len: Int
+    val len: Int,
+    val logo: Int?,
 ) {
     class UnknownCard : CreditCard(
         0,
@@ -46,7 +48,8 @@ sealed class CreditCard constructor(
         DefaultFormatter(),
         REGEX_DEFAULT_CARD,
         "",
-        16
+        16,
+        null,
     )
 
     class Visa : CreditCard(
@@ -55,7 +58,8 @@ sealed class CreditCard constructor(
         DefaultFormatter(),
         REGEX_VISA,
         TYPE_REGEX_VISA,
-        13
+        13,
+        R.drawable.ic_visa,
     )
 
     class MasterCard : CreditCard(
@@ -64,7 +68,8 @@ sealed class CreditCard constructor(
         DefaultFormatter(),
         REGEX_MASTER_CARD,
         TYPE_REGEX_MASTER_CARD,
-        16
+        16,
+        R.drawable.ic_mastercard
     )
 
     class Amex : CreditCard(
@@ -73,7 +78,8 @@ sealed class CreditCard constructor(
         AmexFormatter(),
         REGEX_AMEX,
         TYPE_REGEX_AMEX,
-        15
+        15,
+        R.drawable.ic_amex,
     )
 
     class DinersClub : CreditCard(
@@ -82,7 +88,8 @@ sealed class CreditCard constructor(
         DinersClubFormatter(),
         REGEX_DINERS_CLUB,
         TYPE_REGEX_DINERS_CLUB,
-        14
+        14,
+        R.drawable.ic_diners,
     )
 
     class Discover : CreditCard(
@@ -91,7 +98,8 @@ sealed class CreditCard constructor(
         DefaultFormatter(),
         REGEX_DISCOVER,
         TYPE_REGEX_DISCOVER,
-        16
+        16,
+        R.drawable.ic_discover,
     )
 
     class JCB(
@@ -104,7 +112,8 @@ sealed class CreditCard constructor(
         DefaultFormatter(),
         validationRegex,
         typeRegex,
-        len
+        len,
+        R.drawable.ic_jcb,
     )
 
     class MADA : CreditCard(
@@ -113,7 +122,8 @@ sealed class CreditCard constructor(
         DefaultFormatter(),
         REGEX_MADA,
         TYPE_REGEX_MADA,
-        16
+        16,
+        R.drawable.ic_mada,
     )
 }
 
